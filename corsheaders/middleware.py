@@ -107,6 +107,8 @@ class CorsMiddleware(object):
                 model = get_model(*settings.CORS_MODEL.split('.'))
                 if model.objects.filter(cors=url.netloc).exists():
                     response[ACCESS_CONTROL_ALLOW_ORIGIN] = origin
+                    if settings.CORS_ALLOW_CREDENTIALS:
+                        response[ACCESS_CONTROL_ALLOW_CREDENTIALS] = 'true'
 
             if (not settings.CORS_ORIGIN_ALLOW_ALL and
                     self.origin_not_found_in_white_lists(origin, url)):
